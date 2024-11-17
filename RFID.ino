@@ -5,8 +5,8 @@
 #include <WiFiClientSecure.h>
 
 // WiFi Credentials
-const char* ssid = "CHAY";
-const char* password = "027041216";
+const char* ssid = "ssid";
+const char* password = "password";
 
 // Google Apps Script Webhook URL
 const char* googleScriptURL = "https://script.google.com/macros/s/AKfycbxTUOlX22ccp0SdzpXS_8ysbp86t2Dv2fKzvXNzIbl-HLX9iJjVYpybkm3q_H4WKr00YQ/exec";
@@ -38,33 +38,33 @@ void setup() {
 }
 
 void loop() {
-  // ตรวจสอบว่ามีการ์ดใหม่หรือไม่
+  // check card RFID
   if (!rfid.PICC_IsNewCardPresent()) return;
   if (!rfid.PICC_ReadCardSerial()) return;
 
-  // อ่าน UID และแปลงเป็น String
+  // read UID convert to String
   String uid = "";
   for (byte i = 0; i < rfid.uid.size; i++) {
     uid += String(rfid.uid.uidByte[i], HEX);
   }
   Serial.println("RFID Tag Scanned: " + uid);
 
-  // เปิดเสียงบัซเซอร์เมื่อสแกนสำเร็จ
+  // Buzzer on
   digitalWrite(BUZZER_PIN, 0);
-  delay(200);                  // รอจนเสียงจบ
+  delay(200);                 
   digitalWrite(BUZZER_PIN, 1);
 
 
-  // เช็คการเชื่อมต่อ WiFi
+  // check WiFi Connecting
   if (WiFi.status() == WL_CONNECTED) {
     WiFiClientSecure client;
     client.setInsecure();
     HTTPClient http;
 
-    // เตรียมข้อมูล POST
+    // prepare data POST
     String postData = "uid=" + uid;
 
-    // ส่ง POST ไปยัง Google Apps Script
+    // POST data to Google Apps Script
     http.begin(client, googleScriptURL);
     http.addHeader("Content-Type", "application/x-www-form-urlencoded");
 
@@ -82,7 +82,7 @@ void loop() {
     http.end();
   }
 
-  // หยุดการอ่าน RFID ชั่วคราว
+  // Stop RFID
   rfid.PICC_HaltA();
 }
 

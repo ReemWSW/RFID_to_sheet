@@ -5,8 +5,8 @@
 #include <WiFiClientSecure.h>
 
 // WiFi Credentials
-const char* ssid = "CHAY";
-const char* password = "027041216";
+const char* ssid = "KTCM_Building6_2.4G";
+const char* password = "1234ktcm";
 
 // Google Apps Script Webhook URL
 const char* googleScriptURL = "https://script.google.com/macros/s/AKfycbxTUOlX22ccp0SdzpXS_8ysbp86t2Dv2fKzvXNzIbl-HLX9iJjVYpybkm3q_H4WKr00YQ/exec";
@@ -31,8 +31,8 @@ void setup() {
   digitalWrite(BUZZER_PIN, HIGH);
   pinMode(LED_PIN, OUTPUT);
   digitalWrite(LED_PIN, LOW);
-  pinMode(LED_D0_PIN, OUTPUT); // Initialize LED D0
-  digitalWrite(LED_D0_PIN, HIGH); // LED D0 on initially
+  pinMode(LED_D0_PIN, OUTPUT);     // Initialize LED D0
+  digitalWrite(LED_D0_PIN, HIGH);  // LED D0 on initially
 
   WiFi.begin(ssid, password);
   Serial.println("Connecting to WiFi...");
@@ -74,9 +74,9 @@ void loop() {
   Serial.println("RFID Tag Scanned: " + uid);
 
   // Indicate scanning status using LED D0
-  digitalWrite(LED_D0_PIN, LOW); // Turn off LED D0
-  delay(200);                   // Wait for 200ms
-  digitalWrite(LED_D0_PIN, HIGH); // Turn LED D0 back on
+  digitalWrite(LED_D0_PIN, LOW);   // Turn off LED D0
+  delay(200);                      // Wait for 200ms
+  digitalWrite(LED_D0_PIN, HIGH);  // Turn LED D0 back on
 
   // Buzzer on
   digitalWrite(BUZZER_PIN, LOW);
